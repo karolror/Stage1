@@ -45,4 +45,31 @@ class Database:
                 print(x, ":", i[x], "|", end=" ")
         print(" \n")
         car_id = input('Enter the vehicle ID: ')
-        return car_id
+        return int(car_id)
+
+    def get_injection(self, id_inj):
+        inj = None
+        db = self.cluster["drivers"]
+        collection = db["injection"]
+        for i in collection.find({"_id": id_inj}, {"_id": 0, "name": 0, "inj": 1}):
+            for x in i:
+                inj = i[x]
+        if inj:
+            return inj
+        else:
+            return False
+
+    def get_turbo(self):
+        pass
+
+    def get_rail(self):
+        pass
+
+    def get_injection_pos(self):
+        pass
+
+    def get_turbo_pos(self):
+        pass
+
+    def get_rail_pos(self):
+        pass
