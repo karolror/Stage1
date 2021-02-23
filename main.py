@@ -44,14 +44,17 @@ class Database:
             for x in i:
                 print(x, ":", i[x], "|", end=" ")
         print(" \n")
-        car_id = input('Enter the vehicle ID: ')
-        return int(car_id)
+        while True:
+            try:
+                car_id = int(input('Enter the vehicle ID: '))
+                return car_id
+            except ValueError:
+                print("Oops! Value must be an integer. Try again...")
 
-    def get_injection(self, id_inj):
-        inj = None
+    def get_injection(self, id_inj, inj=None):
         db = self.cluster["drivers"]
         collection = db["injection"]
-        for i in collection.find({"_id": id_inj}, {"_id": 0, "name": 0, "inj": 1}):
+        for i in collection.find({"_id": id_inj}, {"_id": 0, "inj": 1}):
             for x in i:
                 inj = i[x]
         if inj:
@@ -59,17 +62,42 @@ class Database:
         else:
             return False
 
-    def get_turbo(self):
+    def get_turbo(self, id_trb, trb=None):
+        db = self.cluster["drivers"]
+        collection = db["injection"]
+        for i in collection.find({"_id": id_trb}, {"_id": 0, "turbo": 1}):
+            for x in i:
+                trb = i[x]
+        if trb:
+            return trb
+        else:
+            return False
+
+    def get_rail(self, id_rail):
         pass
 
-    def get_rail(self):
+    def get_injection_pos(self, id_inj_pos):
+        inj_pos = []
+        db = self.cluster["drivers"]
+        collection = db["injection"]
+        for i in collection.find({"_id": id_inj_pos}, {"_id": 0, "inj_pos1": 1, "inj_pos2": 1}):
+            for x in i:
+                inj_pos.append(i[x])
+        return inj_pos[0], inj_pos[1]
+
+    def get_turbo_pos(self, trb_info):
         pass
 
-    def get_injection_pos(self):
+    def get_rail_pos(self, rail_info):
         pass
 
-    def get_turbo_pos(self):
-        pass
 
-    def get_rail_pos(self):
+if __name__ == "__main__":
+
+    data = Database(client)
+    model = data.get_model()
+    turbo = data.get_turbo(model)
+    if turbo:
+        print(turbo)
+    else:
         pass
