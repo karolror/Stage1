@@ -73,8 +73,16 @@ class Database:
         else:
             return False
 
-    def get_rail(self, id_rail):
-        pass
+    def get_rail(self, id_rail, ril=None):
+        db = self.cluster["drivers"]
+        collection = db["injection"]
+        for i in collection.find({"_id": id_rail}, {"_id": 0, "rail": 1}):
+            for x in i:
+                ril = i[x]
+        if ril:
+            return ril
+        else:
+            return False
 
     def get_injection_pos(self, id_inj_pos):
         inj_pos = []
@@ -85,19 +93,44 @@ class Database:
                 inj_pos.append(i[x])
         return inj_pos[0], inj_pos[1]
 
-    def get_turbo_pos(self, trb_info):
-        pass
+    def get_turbo_pos(self, id_trb_pos):
+        trb_pos = []
+        db = self.cluster["drivers"]
+        collection = db["injection"]
+        for i in collection.find({"_id": id_trb_pos}, {"_id": 0, "turbo_pos1": 1, "turbo_pos2": 1}):
+            for x in i:
+                trb_pos.append(i[x])
+        return trb_pos[0], trb_pos[1]
 
-    def get_rail_pos(self, rail_info):
-        pass
+    def get_rail_pos(self, id_rail_pos):
+        rail_pos = []
+        db = self.cluster["drivers"]
+        collection = db["injection"]
+        for i in collection.find({"_id": id_rail_pos}, {"_id": 0, "rail_pos1": 1, "rail_pos2": 1}):
+            for x in i:
+                rail_pos.append(i[x])
+        return rail_pos[0], rail_pos[1]
 
 
 if __name__ == "__main__":
 
     data = Database(client)
     model = data.get_model()
+    injection = data.get_rail(model)
     turbo = data.get_turbo(model)
+    rail = data.get_rail(model)
+    if injection:
+        x_inj, y_inj = data.get_injection_pos(model)
+        print(x_inj, y_inj)
+    else:
+        pass
     if turbo:
-        print(turbo)
+        x_trb, y_trb = data.get_turbo_pos(model)
+        print(x_trb, y_trb)
+    else:
+        pass
+    if rail:
+        x_ril, y_ril = data.get_rail_pos(model)
+        print(x_ril, y_ril)
     else:
         pass
