@@ -144,6 +144,6 @@ if __name__ == "__main__":
         ih = tune.tuning(rail, x_ril, y_ril)
     else:
         pass
-save_it = input("Enter the name of modified file (e.g file.bin): ")
-ih.tofile(save_it, format='bin')
-print("Don't forget to check checksums!")
+    save_it = input("Enter the name of modified file (e.g file.bin): ")
+    ih.tofile(save_it, format='bin')
+    print("Don't forget to check checksums!")
