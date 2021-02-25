@@ -112,25 +112,48 @@ class Database:
         return rail_pos[0], rail_pos[1]
 
 
+class Tuner:
+
+    def __init__(self, tune_file):
+        self.tune_file = tune_file
+
+    def tuning(self, tune_hex, a, b, element="0x"):
+        driver_to_list = tune_hex.split()
+        count = 0
+        for i in range(a, b):
+            changer = element + driver_to_list[count]
+            self.tune_file[i] = int(changer, base=16)
+            count += 1
+        return self.tune_file
+
+
 if __name__ == "__main__":
 
+    file = File(path, ih)
     data = Database(client)
+    ih = file.import_file()
+    tune = Tuner(ih)
+
     model = data.get_model()
     injection = data.get_rail(model)
     turbo = data.get_turbo(model)
     rail = data.get_rail(model)
+
     if injection:
         x_inj, y_inj = data.get_injection_pos(model)
-        print(x_inj, y_inj)
+        ih = tune.tuning(injection, x_inj, y_inj)
     else:
         pass
     if turbo:
         x_trb, y_trb = data.get_turbo_pos(model)
-        print(x_trb, y_trb)
+        ih = tune.tuning(turbo, x_trb, y_trb)
     else:
         pass
     if rail:
         x_ril, y_ril = data.get_rail_pos(model)
-        print(x_ril, y_ril)
+        ih = tune.tuning(rail, x_ril, y_ril)
     else:
         pass
+save_it = input("Enter the name of modified file (e.g file.bin): ")
+ih.tofile(save_it, format='bin')
+print("Don't forget to check checksums!")
