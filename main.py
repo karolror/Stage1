@@ -1,4 +1,3 @@
-import os
 import pymongo
 from intelhex import IntelHex
 
@@ -11,23 +10,14 @@ client = pymongo.MongoClient(
 
 class File:
 
-    def __init__(self, file_dir, intel):
-        self.file_dir = file_dir
+    def __init__(self, intel):
         self.ih = intel
 
     def import_file(self):
-        self.ih.loadbin(self.file_dir)
-        return self.ih
-
-    def check_file(self, correct_size):
-        file_stats = os.stat(self.file_dir)
-        print(f'File Size in Bytes is {file_stats.st_size}')
-        if correct_size == file_stats.st_size:
-            print("File size is correct for that model.")
-            return True
-        else:
-            print("File size is incorrect for that model. Please check your file")
-            return False
+        while True:
+            file_dir = input('Enter the location of the file: ')
+            self.ih.loadbin(file_dir)
+            return self.ih
 
 
 class Database:
@@ -129,7 +119,7 @@ class Tuner:
 
 if __name__ == "__main__":
 
-    file = File(path, ih)
+    file = File(ih)
     data = Database(client)
     ih = file.import_file()
     tune = Tuner(ih)
