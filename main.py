@@ -14,10 +14,9 @@ class File:
         self.ih = intel
 
     def import_file(self):
-        while True:
-            file_dir = input('Enter the location of the file: ')
-            self.ih.loadbin(file_dir)
-            return self.ih
+        file_dir = input('Enter the location of the file: ')
+        self.ih.loadbin(file_dir)
+        return self.ih
 
 
 class Database:
