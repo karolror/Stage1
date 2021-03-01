@@ -3,7 +3,6 @@ from intelhex import IntelHex
 
 
 ih = IntelHex()
-path = "golf.bin"
 client = pymongo.MongoClient(
     "mongodb+srv://db_user1:useruser123@cluster0.qqmqr.mongodb.net/sample_training?retryWrites=true&w=majority")
 
@@ -109,7 +108,7 @@ class Tuner:
     def tuning(self, tune_hex, a, b, element="0x"):
         driver_to_list = tune_hex.split()
         count = 0
-        for i in range(a, b):
+        for i in range(a, b+1):
             changer = element + driver_to_list[count]
             self.tune_file[i] = int(changer, base=16)
             count += 1
@@ -122,24 +121,27 @@ if __name__ == "__main__":
     data = Database(client)
     ih = file.import_file()
     tune = Tuner(ih)
-
+    print("Collecting data from database... ")
     model = data.get_model()
-    injection = data.get_rail(model)
+    injection = data.get_injection(model)
     turbo = data.get_turbo(model)
     rail = data.get_rail(model)
 
     if injection:
         x_inj, y_inj = data.get_injection_pos(model)
+        print("Inj tuning...")
         ih = tune.tuning(injection, x_inj, y_inj)
     else:
         pass
     if turbo:
         x_trb, y_trb = data.get_turbo_pos(model)
+        print("Turbo tuning...")
         ih = tune.tuning(turbo, x_trb, y_trb)
     else:
         pass
     if rail:
         x_ril, y_ril = data.get_rail_pos(model)
+        print("Rail tuning...")
         ih = tune.tuning(rail, x_ril, y_ril)
     else:
         pass
