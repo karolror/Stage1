@@ -30,9 +30,12 @@ Then you will need to install 3 libraries:
 
 For Windows, the easiest way is to install using the pip package.
 In windows command line use:
+
 pip install library_name
 
-To start using program in Windows go in cmd to the appropriate directory and type the command: python main.py
+To start using program in Windows go in cmd to the appropriate directory and type the command: 
+
+python main.py
 
 ## Features
 List of features ready and TODOs for future development
@@ -44,6 +47,7 @@ To-do list:
 * Divide the tuning functions into more precise sections
 * Add functions to modify the limiters and ignitions
 * Add features for file compliance checking
+* Add more drivers to database
 
 ## Status
 Project is: _in progress_
