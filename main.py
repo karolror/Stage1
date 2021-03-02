@@ -147,4 +147,4 @@ if __name__ == "__main__":
         pass
     save_it = input("Enter the name of modified file (e.g file.bin): ")
     ih.tofile(save_it, format='bin')
-    print("Don't forget to check checksums!")
+    print("Mod saved. Don't forget to check checksums!")
