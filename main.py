@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import filedialog
 import pymongo
 
 
@@ -22,18 +23,26 @@ class MainApplication(tk.Frame):
         self.listbox2.config(yscrollcommand=self.scrollbar.set)
         self.scrollbar.config(command=self.listbox2.yview)
         '#Buttons'
-        self.search_button = tk.Button(text="Search Models", command=lambda: self.get_model(self.get_value_listbox()))
+        self.search_button = tk.Button(text="Search Models", command=lambda: self.get_model(self.get_value_listbox1()))
         self.search_button.place(x=26, y=220)
         self.generate_button = tk.Button(text="Click to generate Stage1!", height="2", width="105",
                                          activebackground="#72A56A", activeforeground="#ff3333")
         self.generate_button.place(x=30, y=450)
+        self.load_button = tk.Button(text="Load File", command=self.openfile)
+        self.load_button.place(x=713, y=220)
         '#DB'
         self.client = pymongo.MongoClient(
             "mongodb+srv://db_user1:useruser123@cluster0.qqmqr.mongodb.net/sample_training?retryWrites=true&w=majority")
+        '#Options'
+        self.loaded_dir = None
 
-    def get_value_listbox(self):
+    def get_value_listbox1(self):
         keykey = self.listbox1.get(tk.ACTIVE)
         return keykey
+
+    def get_value_listbox2(self):
+        keykey2 = self.listbox1.get(tk.ACTIVE)
+        return keykey2
 
     def get_model(self, brand):
         self.listbox2.delete(0, tk.END)
@@ -48,6 +57,12 @@ class MainApplication(tk.Frame):
             concentrate = " ".join(goto)
             self.listbox2.insert(tk.END, concentrate)
             del goto[:]
+
+    def get_car_id(self, ):
+        pass
+
+    def openfile(self):
+        self.loaded_dir = filedialog.askopenfilename()
 
 
 if __name__ == "__main__":
