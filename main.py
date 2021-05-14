@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog
+from tkinter import messagebox
 import pymongo
 
 
@@ -26,7 +27,7 @@ class MainApplication(tk.Frame):
         self.search_button = tk.Button(text="Search Models", command=lambda: self.get_model(self.get_value_listbox1()))
         self.search_button.place(x=26, y=220)
         self.generate_button = tk.Button(text="Click to generate Stage1!", height="2", width="105",
-                                         activebackground="#72A56A", activeforeground="#ff3333")
+                                         activebackground="#72A56A", activeforeground="#ff3333", command=self.generate)
         self.generate_button.place(x=30, y=450)
         self.load_button = tk.Button(text="Load File", command=self.openfile)
         self.load_button.place(x=713, y=220)
@@ -38,7 +39,6 @@ class MainApplication(tk.Frame):
         '#DB'
         self.client = pymongo.MongoClient(
             "mongodb+srv://db_user1:useruser123@cluster0.qqmqr.mongodb.net/sample_training?retryWrites=true&w=majority")
-        '#Options'
         self.loaded_dir = None
         self.loaded_id = None
 
@@ -66,6 +66,7 @@ class MainApplication(tk.Frame):
 
     def openfile(self):
         self.loaded_dir = filedialog.askopenfilename()
+        print(self.loaded_dir)
 
     def select_model(self, key_listbox):
         try:
@@ -76,6 +77,15 @@ class MainApplication(tk.Frame):
         except IndexError:
             self.textbox.delete("1.0", tk.END)
             self.textbox.insert(tk.END, "Error")
+    def generate(self):
+        if self.loaded_id:
+            print("id loaded")
+            if self.loaded_dir:
+                pass
+            else:
+                tk.messagebox.showerror(title="Error", message="Load ECU file!")
+        else:
+            tk.messagebox.showerror(title="Error", message="Select car model!")
 
 
 if __name__ == "__main__":
