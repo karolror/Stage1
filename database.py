@@ -3,22 +3,6 @@ class Database:
     def __init__(self, cluster):
         self.cluster = cluster
 
-    def get_model(self):
-        db = self.cluster["drivers"]
-        collection = db["sizes"]
-        desc = collection.find({})
-        for i in desc:
-            print(" \n")
-            for x in i:
-                print(x, ":", i[x], "|", end=" ")
-        print(" \n")
-        while True:
-            try:
-                car_id = int(input('Enter the vehicle ID: '))
-                return car_id
-            except ValueError:
-                print("Oops! Value must be an integer. Try again...")
-
     def get_injection(self, id_inj, inj=None):
         db = self.cluster["drivers"]
         collection = db["injection"]

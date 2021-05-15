@@ -87,7 +87,6 @@ class Tuner(tk.Frame):
 
     def generate(self):
         if self.loaded_id:
-            print("id loaded")
             if self.loaded_dir:
                 self.pattern()
             else:
@@ -104,21 +103,16 @@ class Tuner(tk.Frame):
             x_inj, y_inj = self.data.get_injection_pos(self.loaded_id)
             print("Inj tuning...")
             self.ih = self.tuning(self.injection, x_inj, y_inj)
-        else:
-            pass
         if self.turbo:
             x_trb, y_trb = self.data.get_turbo_pos(self.loaded_id)
             print("Turbo tuning...")
             self.ih = self.tuning(self.turbo, x_trb, y_trb)
-        else:
-            pass
         if self.rail:
             x_ril, y_ril = self.data.get_rail_pos(self.loaded_id)
             print("Rail tuning...")
             self.ih = self.tuning(self.rail, x_ril, y_ril)
-        else:
-            pass
         self.ih.tofile("mod.bin", format="bin")
+        tk.messagebox.showinfo(title="INFO", message="File Saved.")
 
     def ih_import_file(self):
         self.ih.loadbin(self.loaded_dir)
